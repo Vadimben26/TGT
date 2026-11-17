@@ -38,20 +38,11 @@ export default {
   // their calendar (see README). Format: day 0 = Sunday … 6 = Saturday.
   coaches: [
     {
-      id: 'lazslo',
-      name: 'Lazslo Bauer',
-      initials: 'LB',
-      color: '#d7f04a',
-      role: 'Coach · organiser of the monthly IE Segovia tournament',
-      calendarEnv: 'CAL_LAZSLO',
-      workingHours: { 0: null, 1: ['09:00', '22:00'], 2: ['09:00', '22:00'], 3: ['09:00', '22:00'], 4: ['09:00', '22:00'], 5: ['09:00', '22:00'], 6: ['09:00', '22:00'] },
-    },
-    {
       id: 'carlos',
       name: 'Carlos Escridano',
       initials: 'CE',
       color: '#ffb547',
-      role: 'Coach',
+      role: 'Padel coach',
       calendarEnv: 'CAL_CARLOS',   // ← add Carlos's iCal link in this env variable
       workingHours: { 0: null, 1: ['09:00', '22:00'], 2: ['09:00', '22:00'], 3: ['09:00', '22:00'], 4: ['09:00', '22:00'], 5: ['09:00', '22:00'], 6: ['09:00', '22:00'] },
     },

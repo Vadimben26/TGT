@@ -13,8 +13,8 @@ function taykusDay(day) {
   ] } };
 }
 
-// Lazslo: busy-only calendar (meeting 11:30-13:00 on 18 Nov + weekly class every Wed 18:00-19:00)
-const ICS_LAZSLO = `BEGIN:VCALENDAR
+// Busy-only calendar (meeting 11:30-13:00 on 18 Nov + weekly class every Wed 18:00-19:00)
+const ICS_BUSY = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 UID:1
@@ -31,8 +31,8 @@ SUMMARY:Class
 END:VEVENT
 END:VCALENDAR`;
 
-// Carlos: "Dispo" windows only on 18 Nov 08:30-11:00 Madrid
-const ICS_CARLOS = `BEGIN:VCALENDAR
+// "Dispo" windows only on 18 Nov 08:30-11:00 Madrid
+const ICS_DISPO = `BEGIN:VCALENDAR
 VERSION:2.0
 BEGIN:VEVENT
 UID:3
@@ -47,43 +47,45 @@ const fetchMock = async (url, opts = {}) => {
     const day = JSON.parse(opts.body).date.slice(0, 10);
     return { ok: true, status: 200, json: async () => taykusDay(day) };
   }
-  if (url === 'ics://lazslo') return { ok: true, status: 200, text: async () => ICS_LAZSLO };
-  if (url === 'ics://carlos') return { ok: true, status: 200, text: async () => ICS_CARLOS };
+  if (url === 'ics://busy') return { ok: true, status: 200, text: async () => ICS_BUSY };
+  if (url === 'ics://dispo') return { ok: true, status: 200, text: async () => ICS_DISPO };
   return { ok: false, status: 404 };
 };
 
 // 1) Both calendars connected
-let r = await computeAvailability({ now, fetchImpl: fetchMock, env: { CAL_LAZSLO: 'ics://lazslo', CAL_CARLOS: 'ics://carlos', LAZSLO_WHATSAPP: '+34 600 000 000' } });
+// Carlos in "busy" mode (calendar with meetings only)
+let r = await computeAvailability({ now, fetchImpl: fetchMock, env: { CAL_CARLOS: 'ics://busy', LAZSLO_WHATSAPP: '+34 600 000 000' } });
 const day1 = r.slots.filter(s => s.date === '2026-11-18');
 const fmt = s => `${s.coach} ${s.start} ${s.durations.map(d => d.minutes + 'min').join('/')} [${s.courts.length}]`;
 console.log(day1.map(fmt));
 
-const L = day1.filter(s => s.coach === 'lazslo').map(s => s.start);
-const C = day1.filter(s => s.coach === 'carlos').map(s => s.start);
-// Lazslo: 09:00 ok; 12:00 overlaps meeting -> no; 13:30 ok; 15:30 ok; 18:00 overlaps weekly class -> no;
+const L = day1.filter(s => s.coach === 'carlos').map(s => s.start);
+// 09:00 ok; 12:00 overlaps meeting -> no; 13:30 ok; 15:30 ok; 18:00 overlaps weekly class -> no;
 // 21:00 -> only 60 min fits before end of working hours (22:00)
 assert.deepEqual(L, ['09:00', '13:30', '15:30', '21:00']);
 const dur = (coach, start) => day1.find(s => s.coach === coach && s.start === start).durations.map(d => d.minutes);
-assert.deepEqual(dur('lazslo', '09:00'), [60, 90]);
-assert.deepEqual(dur('lazslo', '21:00'), [60]);
-assert.equal(day1.find(s => s.coach === 'lazslo' && s.start === '21:00').durations[0].end, '22:00');
-// Carlos: only inside Dispo 08:30-11:00 -> 09:00 (09:15 excluded by 30-min grid)
-assert.deepEqual(C, ['09:00']);
-assert.equal(day1.find(s => s.coach === 'lazslo' && s.start === '09:00').courts.length, 2);
+assert.deepEqual(dur('carlos', '09:00'), [60, 90]);
+assert.deepEqual(dur('carlos', '21:00'), [60]);
+assert.equal(day1.find(s => s.coach === 'carlos' && s.start === '21:00').durations[0].end, '22:00');
+// Carlos in "Dispo" mode: only inside Dispo 08:30-11:00 -> 09:00 (09:15 excluded by 30-min grid)
+const rD = await computeAvailability({ now, fetchImpl: fetchMock, env: { CAL_CARLOS: 'ics://dispo' } });
+assert.deepEqual(rD.slots.filter(s => s.date === '2026-11-18').map(s => s.start), ['09:00']);
+assert.equal(day1.find(s => s.coach === 'carlos' && s.start === '09:00').courts.length, 2);
 assert.equal(r.whatsapp, '34600000000');
 assert.equal(r.errors.length, 0);
 // min notice: nothing before 10:00 on day 1 would apply if now were later
-const r2 = await computeAvailability({ now: localToDate('2026-11-18T08:00'), fetchImpl: fetchMock, env: { CAL_LAZSLO: 'ics://lazslo' } });
+const r2 = await computeAvailability({ now: localToDate('2026-11-18T08:00'), fetchImpl: fetchMock, env: { CAL_CARLOS: 'ics://busy' } });
 assert.ok(!r2.slots.some(s => s.date === '2026-11-18' && s.start === '09:00'), 'min notice respected');
 // weekly class repeats next Wednesday 25 Nov
-assert.ok(!r.slots.some(s => s.coach === 'lazslo' && s.date === '2026-11-25' && s.start === '18:00'));
+assert.ok(!r.slots.some(s => s.coach === 'carlos' && s.date === '2026-11-25' && s.start === '18:00'));
 
-// 2) Carlos not connected -> no Carlos slots, coach flagged as not connected
-assert.equal(r2.coaches.find(c => c.id === 'carlos').connected, false);
-assert.ok(!r2.slots.some(s => s.coach === 'carlos'));
+// 2) Carlos not connected -> no slots, coach flagged as not connected
+const rN = await computeAvailability({ now, fetchImpl: fetchMock, env: {} });
+assert.equal(rN.coaches.find(c => c.id === 'carlos').connected, false);
+assert.equal(rN.slots.length, 0);
 
 // 3) Taykus down -> error reported, no crash
-const r3 = await computeAvailability({ now, fetchImpl: async (u, o) => (u.includes('taykus') ? { ok: false, status: 503 } : fetchMock(u, o)), env: { CAL_LAZSLO: 'ics://lazslo' } });
+const r3 = await computeAvailability({ now, fetchImpl: async (u, o) => (u.includes('taykus') ? { ok: false, status: 503 } : fetchMock(u, o)), env: { CAL_CARLOS: 'ics://busy' } });
 assert.equal(r3.slots.length, 0);
 assert.ok(r3.errors.some(e => e.source === 'taykus'));
 

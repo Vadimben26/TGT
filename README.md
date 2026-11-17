@@ -13,7 +13,7 @@ test/                    tests hors ligne : npm test
 
 ## 1. Récupérer le lien d'agenda de chaque coach
 
-Pour chaque coach (Lazslo maintenant, Carlos plus tard), sur **ordinateur** :
+Pour le coach (Carlos), sur **ordinateur** :
 
 1. Ouvrir Google Calendar → ⚙️ **Paramètres**.
 2. À gauche, cliquer sur son agenda (sous « Paramètres de mes agendas »).
@@ -35,12 +35,11 @@ Un événement marqué « Disponible » (transparent) dans Google n'est pas comp
 4. Dans le projet Vercel → **Settings → Environment Variables**, ajouter :
    | Nom | Valeur |
    |---|---|
-   | `CAL_LAZSLO` | l'adresse iCal secrète de Lazslo |
-   | `CAL_CARLOS` | celle de Carlos (quand vous l'avez) |
+   | `CAL_CARLOS` | l'adresse iCal secrète de Carlos |
    | `LAZSLO_WHATSAPP` | numéro de Lazslo au format international, ex. `34612345678` |
 5. **Deployments → ⋯ → Redeploy** pour prendre en compte les variables.
 
-➡️ **Ajouter Carlos plus tard = juste ajouter `CAL_CARLOS` puis Redeploy.** Rien d'autre à changer. Tant qu'il n'est pas ajouté, le site affiche « Availability coming soon » pour lui.
+➡️ Tant que `CAL_CARLOS` n'est pas ajouté, le site affiche « Availability coming soon ». Pour ajouter un autre coach plus tard : un bloc de plus dans `coaches` (config.js) + sa variable d'agenda.
 
 Optionnel : acheter un nom de domaine et le relier dans Vercel → Settings → Domains.
 

@@ -285,7 +285,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <div>
         <div class="eyebrow">Padel for IE Segovia students</div>
         <h1>Book a padel lesson <em>in 30 seconds.</em></h1>
-        <p class="lead">See when the coaches and the courts at Padelzone 2.0 are both free, pick a slot, and send your request to Lazslo on WhatsApp. He books the court for you.</p>
+        <p class="lead">See when the coach and the courts at Padelzone 2.0 are both free, pick a slot, and send your request to Lazslo on WhatsApp. He books the court for you.</p>
         <div class="ctas">
           <a href="#lessons" class="btn btn-lime">See available slots →</a>
           <a href="#tournament" class="btn btn-ghost">Monthly tournament</a>
@@ -303,7 +303,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
         </svg>
         <div class="stat">
           <div><b id="st-slots">–</b><span>free slots, next 7 days</span></div>
-          <div><b>2</b><span>coaches</span></div>
+          <div><b id="st-coaches">1</b><span id="st-coaches-l">coach</span></div>
           <div><b id="st-courts">8</b><span>courts</span></div>
         </div>
       </div>
@@ -321,7 +321,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </div>
 
   <div class="wrap sec">
-    <div class="eyebrow">The coaches</div>
+    <div class="eyebrow" id="coach-eyebrow">Your coach</div>
     <h2>Who you'll train with.</h2>
     <div class="coaches" id="home-coaches"></div>
   </div>
@@ -364,7 +364,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div id="lessons-notices" style="margin-top:22px"></div>
 
     <div class="filters">
-      <div class="fgroup"><label>Coach</label><div class="chips" id="f-coach"></div></div>
+      <div class="fgroup" id="fg-coach"><label>Coach</label><div class="chips" id="f-coach"></div></div>
       <div class="fgroup"><label>Time of day</label><div class="chips" id="f-time"></div></div>
     </div>
 
@@ -476,6 +476,10 @@ function renderAll() {
   $('#st-slots').textContent = DATA.slots.length;
   if (DATA.club.courts) $('#st-courts').textContent = DATA.club.courts;
   $('#venue-courts').innerHTML = '<i style="width:18px;height:26px;border-radius:3px;background:var(--court)"></i>'.repeat(DATA.club.courts || 8);
+  $('#st-coaches').textContent = DATA.coaches.length;
+  $('#st-coaches-l').textContent = DATA.coaches.length > 1 ? 'coaches' : 'coach';
+  $('#coach-eyebrow').textContent = DATA.coaches.length > 1 ? 'The coaches' : 'Your coach';
+  $('#fg-coach').style.display = DATA.coaches.length > 1 ? '' : 'none';
   renderCoaches();
   renderPrices();
   renderNotices();
@@ -506,7 +510,7 @@ function renderCoaches() {
 function renderNotices() {
   const n = [];
   const off = DATA.coaches.filter(c => !c.connected);
-  if (off.length) n.push(`<div class="notice info">${off.map(c => esc(c.name)).join(' and ')}'s availability will be online soon. Meanwhile you can message Lazslo to book with ${off.length > 1 ? 'them' : off[0].name.split(' ')[0]}.</div>`);
+  if (off.length) n.push(`<div class="notice info">${off.map(c => esc(c.name)).join(' and ')}'s availability will be online soon. Meanwhile you can message Lazslo on WhatsApp to book a lesson.</div>`);
   if (DATA.errors.some(e => e.source === 'taykus')) n.push(`<div class="notice warn">Court availability from the club is partly unavailable right now — some slots may be missing.</div>`);
   if (DATA.errors.some(e => e.source === 'calendar')) n.push(`<div class="notice warn">A coach's calendar couldn't be read right now — their slots may be missing.</div>`);
   $('#lessons-notices').innerHTML = n.join('');
