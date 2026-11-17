@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TGT — Padel for IE Segovia</title>
+<meta name="description" content="Book a padel lesson with Lazslo Bauer or Carlos Escridano at Padelzone 2.0, Segovia. For IE University students.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d1f3a; --ink2:#2b3d5c; --muted:#6b7890; --line:#dfe3d6;
+  --bg:#f6f4ec; --card:#ffffff; --lime:#d7f04a; --lime-d:#b5d11f;
+  --court:#1f5fa8; --court-l:#e6eefa; --red:#d9483b; --ok:#2f8f4e;
+  --r:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.display{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;line-height:1.05}
+button{font:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select{font:inherit;color:inherit}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{position:sticky;top:0;z-index:20;background:rgba(246,244,236,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:22px;text-decoration:none}
+.ball{width:22px;height:22px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);position:relative;overflow:hidden}
+.ball:after{content:"";position:absolute;inset:-6px 8px;border:2px solid var(--ink);border-radius:50%;border-top-color:transparent;border-bottom-color:transparent}
+.logo small{font-family:'DM Sans';font-weight:600;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-left:2px}
+.links{display:flex;gap:4px}
+.links a{text-decoration:none;font-weight:600;font-size:15px;padding:8px 14px;border-radius:999px;color:var(--ink2)}
+.links a.on{background:var(--ink);color:#fff}
+.demo-pill{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;background:var(--lime);padding:4px 10px;border-radius:999px}
+
+/* generic */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:999px;font-weight:700;font-size:15px;transition:transform .12s, background .12s}
+.btn:active{transform:scale(.97)}
+.btn-lime{background:var(--lime);color:var(--ink)}
+.btn-lime:hover{background:var(--lime-d)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--ink2)}
+.btn-ghost{border:1.5px solid var(--ink)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--court)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+section.page{display:none;padding-bottom:80px}
+section.page.on{display:block}
+.sec{padding:56px 0 0}
+.sec h2{font-size:clamp(28px,4vw,40px);margin:6px 0 22px}
+
+/* hero */
+.hero{padding:48px 0 0}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800}
+.hero h1 em{font-style:normal;background:var(--lime);padding:0 .12em;border-radius:8px}
+.hero p.lead{font-size:18px;color:var(--ink2);max-width:520px;margin:20px 0 28px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.court-art{background:var(--court);border-radius:24px;position:relative;overflow:hidden;min-height:340px;padding:22px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end}
+.court-art svg{position:absolute;inset:0;width:100%;height:100%}
+.court-art .stat{position:relative;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:14px 16px;display:flex;justify-content:space-between;gap:10px}
+.court-art .stat b{font-family:'Bricolage Grotesque';font-size:28px;display:block;line-height:1}
+.court-art .stat span{font-size:12px;opacity:.85}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{padding:22px}
+.step .n{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--lime);display:grid;place-items:center;font-weight:800;font-family:'Bricolage Grotesque';margin-bottom:14px}
+.step h3{font-size:20px;margin-bottom:6px}
+.step p{color:var(--muted);font-size:15px}
+
+.coaches{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.coach{padding:22px;display:flex;gap:18px;align-items:flex-start}
+.avatar{flex:none;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;font-family:'Bricolage Grotesque';font-weight:800;font-size:24px;color:var(--ink)}
+.coach h3{font-size:22px}
+.coach .role{font-size:13px;color:var(--court);font-weight:700;margin:2px 0 8px}
+.coach p{font-size:15px;color:var(--ink2)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+
+.clubs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.club{padding:20px}
+.club .courts{display:flex;gap:4px;margin:14px 0 12px;flex-wrap:wrap}
+.club .courts i{width:18px;height:26px;border-radius:3px;background:var(--court);position:relative}
+.club .courts i:after{content:"";position:absolute;left:2px;right:2px;top:50%;height:1.5px;background:#fff}
+.club h3{font-size:20px}
+.club .meta{font-size:14px;color:var(--muted)}
+
+.tourney-teaser{margin-top:56px;background:var(--ink);color:#fff;border-radius:24px;padding:34px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.tourney-teaser h2{font-size:clamp(28px,4vw,42px);margin:6px 0 10px}
+.tourney-teaser .eyebrow{color:var(--lime)}
+.tourney-teaser p{color:#c3cbdb;max-width:560px}
+
+/* courses page */
+.page-head{padding:44px 0 8px}
+.page-head h1{font-size:clamp(36px,5vw,56px);font-weight:800}
+.page-head p{color:var(--ink2);margin-top:10px;max-width:620px}
+.filters{display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;margin:28px 0 18px;padding:18px;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.fgroup label{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);font-weight:600;font-size:14px;background:#fff}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:22px;scrollbar-width:thin}
+.day{flex:none;min-width:76px;padding:10px 12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;text-align:center}
+.day b{display:block;font-family:'Bricolage Grotesque';font-size:24px;line-height:1.1}
+.day span{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.day em{display:block;font-style:normal;font-size:11px;color:var(--ok);font-weight:700;margin-top:2px}
+.day.on{background:var(--lime);border-color:var(--ink)}
+.day.on span{color:var(--ink)}
+.club-block{margin-bottom:26px}
+.club-block-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.club-block-h h3{font-size:24px}
+.club-block-h span{font-size:14px;color:var(--muted)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px}
+.slot{text-align:left;padding:14px 16px;border-radius:14px;background:#fff;border:1.5px solid var(--line);transition:border-color .12s, transform .12s;position:relative}
+.slot:hover{border-color:var(--ink);transform:translateY(-2px)}
+.slot .t{font-family:'Bricolage Grotesque';font-weight:700;font-size:22px}
+.slot .c{font-size:14px;font-weight:600;display:flex;align-items:center;gap:6px;margin-top:2px}
+.slot .c i{width:9px;height:9px;border-radius:50%}
+.slot .p{font-size:13px;color:var(--muted);margin-top:4px}
+.slot .court-no{position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;background:var(--court-l);color:var(--court);padding:3px 8px;border-radius:999px}
+.slot.taken{background:repeating-linear-gradient(-45deg,#f1f0ea,#f1f0ea 6px,#ebe9e1 6px,#ebe9e1 12px);color:var(--muted);pointer-events:none}
+.slot.taken .court-no{background:#e2e0d8;color:var(--muted)}
+.slot.mine{border-color:var(--ok);background:#eef8f0;pointer-events:none}
+.empty{padding:40px;text-align:center;color:var(--muted);border:1.5px dashed var(--line);border-radius:var(--r)}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-bottom:18px}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border-radius:4px;border:1.5px solid var(--line);background:#fff}
+.legend i.tk{background:repeating-linear-gradient(-45deg,#f1f0ea,#f1f0ea 3px,#e2e0d8 3px,#e2e0d8 6px)}
+.legend i.mn{background:#eef8f0;border-color:var(--ok)}
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.price{padding:16px 18px}
+.price b{font-family:'Bricolage Grotesque';font-size:28px}
+.price .pp{font-size:13px;color:var(--muted)}
+.mybook{margin-top:40px}
+.mybook h2{font-size:28px;margin-bottom:14px}
+.bk{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 18px;margin-bottom:8px;flex-wrap:wrap}
+.bk .ref{font-size:12px;font-weight:700;color:var(--ok);background:#eef8f0;padding:4px 10px;border-radius:999px}
+
+/* tournament */
+.t-hero{margin-top:28px;background:var(--ink);color:#fff;border-radius:24px;padding:32px;display:grid;grid-template-columns:1.2fr 1fr;gap:28px}
+.t-hero .eyebrow{color:var(--lime)}
+.t-hero h2{font-size:clamp(30px,4vw,46px);margin:8px 0 14px}
+.t-hero p{color:#c3cbdb}
+.t-facts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.t-fact{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:14px}
+.t-fact span{font-size:12px;color:#9fb0cc;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.t-fact b{display:block;font-family:'Bricolage Grotesque';font-size:22px;margin-top:2px}
+.levels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.level{padding:24px}
+.level-h{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.level h3{font-size:26px}
+.level .badge{font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px}
+.badge.adv{background:var(--ink);color:var(--lime)}
+.badge.int{background:var(--court-l);color:var(--court)}
+.bar{height:10px;border-radius:999px;background:var(--bg);margin:16px 0 8px;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;background:var(--lime-d)}
+.level .spots{font-size:14px;color:var(--ink2);margin-bottom:16px}
+.level ul{list-style:none;margin:14px 0 18px;font-size:14px}
+.level li{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--line)}
+.level li span{color:var(--muted)}
+.level li.open{color:var(--muted);font-style:italic}
+
+.bracket-tabs{display:flex;gap:6px;margin-bottom:16px}
+.bracket{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;overflow-x:auto;padding:22px}
+.round h4{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.round .matches{display:flex;flex-direction:column;justify-content:space-around;height:calc(100% - 28px);gap:10px}
+.match{border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;min-width:150px}
+.match div{padding:8px 10px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;gap:6px}
+.match div + div{border-top:1px solid var(--line)}
+.match .tbd{color:var(--muted);font-weight:500;font-style:italic}
+.match .crt{font-size:10px;font-weight:700;color:var(--court);background:var(--court-l);padding:2px 6px;border-radius:999px;font-style:normal}
+.champ{display:grid;place-items:center;text-align:center;border:2px solid var(--ink);border-radius:14px;background:var(--lime);padding:18px 10px;font-family:'Bricolage Grotesque';font-weight:800;font-size:18px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rule{padding:18px}
+.rule h4{font-size:16px;margin-bottom:4px;font-family:'Bricolage Grotesque'}
+.rule p{font-size:14px;color:var(--muted)}
+.past{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.past .card{padding:18px}
+.past .m{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.past b{display:block;margin:6px 0 2px;font-size:15px}
+.past span{font-size:13px;color:var(--muted)}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(13,31,58,.55);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.overlay.on{display:flex}
+.modal{background:#fff;border-radius:22px;width:100%;max-width:460px;max-height:92vh;overflow:auto;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.modal-h{padding:22px 24px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.modal-h h3{font-size:24px}
+.x{width:34px;height:34px;border-radius:50%;background:var(--bg);font-size:18px;flex:none}
+.modal-b{padding:18px 24px 24px}
+.summary{background:var(--bg);border-radius:14px;padding:14px 16px;font-size:14px;margin-bottom:18px}
+.summary div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+.summary div span:first-child{color:var(--muted)}
+.summary .tot{border-top:1px solid var(--line);margin-top:6px;padding-top:9px;font-weight:700;font-size:16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+.field input,.field select{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;outline:none}
+.field input:focus,.field select:focus{border-color:var(--ink)}
+.field .err{font-size:12px;color:var(--red);margin-top:4px;display:none}
+.field.bad input{border-color:var(--red)}
+.field.bad .err{display:block}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg button{padding:10px 6px;border:1.5px solid var(--line);border-radius:12px;font-size:13px;font-weight:600;line-height:1.3}
+.seg button small{display:block;color:var(--muted);font-weight:500;font-size:12px}
+.seg button.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.seg button.on small{color:#c3cbdb}
+.demo-note{font-size:12px;background:#fff7d6;border:1px solid #f0dd8a;color:#6a5a12;border-radius:10px;padding:9px 12px;margin-bottom:14px}
+.pay-brand{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px}
+.pay-brand b{color:var(--ink)}
+.full{width:100%;justify-content:center}
+.spin{width:44px;height:44px;border:4px solid var(--line);border-top-color:var(--ink);border-radius:50%;animation:sp 0.8s linear infinite;margin:30px auto 14px}
+@keyframes sp{to{transform:rotate(360deg)}}
+.done{text-align:center;padding:10px 0}
+.done .ok{width:64px;height:64px;border-radius:50%;background:var(--lime);display:grid;place-items:center;margin:4px auto 14px;font-size:30px;border:2px solid var(--ink)}
+.done h3{font-size:26px;margin-bottom:8px}
+.done p{color:var(--ink2);font-size:15px}
+.done .code{display:inline-block;margin:14px 0 18px;font-family:'Bricolage Grotesque';font-weight:700;font-size:20px;padding:8px 16px;background:var(--bg);border-radius:10px;letter-spacing:.06em}
+
+footer{border-top:1px solid var(--line);padding:26px 0;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:860px){
+  .hero-grid,.t-hero,.coaches,.levels{grid-template-columns:1fr}
+  .steps,.clubs,.rules,.past,.prices{grid-template-columns:1fr}
+  .tourney-teaser{grid-template-columns:1fr}
+  .bracket{grid-template-columns:repeat(4,minmax(160px,1fr))}
+  .court-art{min-height:260px}
+}
+@media (max-width:560px){
+  .links a{padding:7px 10px;font-size:14px}
+  .logo small,.demo-pill{display:none}
+}
+</style>
+<style>
+.notice{border-radius:12px;padding:12px 16px;font-size:14px;margin-bottom:16px;border:1px solid}
+.notice.info{background:#eef3fb;border-color:#cfdcf2;color:#1f3c66}
+.notice.warn{background:#fff7d6;border-color:#f0dd8a;color:#6a5a12}
+.notice.err{background:#fdecea;border-color:#f3c3bd;color:#8a2a20}
+.btn-wa{background:#25d366;color:#0b3d1f}
+.btn-wa:hover{background:#1fbd5a}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:10px}
+.status.on{background:#eef8f0;color:var(--ok)}
+.status.off{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+.status i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.venue{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.venue .card{padding:22px}
+.venue h3{font-size:22px;margin-bottom:6px}
+.venue p{color:var(--ink2);font-size:15px}
+.updated{font-size:12px;color:var(--muted);margin:-8px 0 18px}
+.slot .p b{color:var(--ink)}
+.skeleton{height:84px;border-radius:14px;background:linear-gradient(90deg,#eceae2,#f6f4ec,#eceae2);background-size:200% 100%;animation:sk 1.2s infinite}
+@keyframes sk{to{background-position:-200% 0}}
+.msg-preview{white-space:pre-wrap;font-size:13px;background:var(--bg);border-radius:12px;padding:12px 14px;margin:4px 0 14px;font-family:ui-monospace,Menlo,monospace;color:var(--ink2)}
+.pay-steps{font-size:14px;color:var(--ink2);margin:0 0 16px 18px}
+.pay-steps li{margin-bottom:4px}
+.t-levels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.t-levels .card{padding:24px}
+.t-levels h3{font-size:26px;margin-bottom:6px}
+.t-levels p{color:var(--muted);font-size:14px;margin-bottom:16px}
+@media (max-width:860px){.venue,.t-levels{grid-template-columns:1fr}#prices{grid-template-columns:1fr 1fr!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#home" class="logo"><span class="ball"></span>TGT<small>IE Segovia</small></a>
+    <nav class="links">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#lessons" data-nav="lessons">Lessons</a>
+      <a href="#tournament" data-nav="tournament">Tournament</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- ================= HOME ================= -->
+<section class="page" id="p-home">
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Padel for IE Segovia students</div>
+        <h1>Book a padel lesson <em>in 30 seconds.</em></h1>
+        <p class="lead">See when the coaches and the courts at Padelzone 2.0 are both free, pick a slot, and send your request to Lazslo on WhatsApp. He books the court for you.</p>
+        <div class="ctas">
+          <a href="#lessons" class="btn btn-lime">See available slots →</a>
+          <a href="#tournament" class="btn btn-ghost">Monthly tournament</a>
+        </div>
+      </div>
+      <div class="court-art">
+        <svg viewBox="0 0 400 340" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect x="40" y="30" width="320" height="280" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+          <line x1="40" y1="170" x2="360" y2="170" stroke="#fff" stroke-width="4"/>
+          <line x1="40" y1="95" x2="360" y2="95" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+          <line x1="40" y1="245" x2="360" y2="245" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+          <line x1="200" y1="95" x2="200" y2="245" stroke="rgba(255,255,255,.55)" stroke-width="3"/>
+          <circle cx="285" cy="120" r="16" fill="#d7f04a"/>
+          <path d="M273 110 q12 10 0 22 M297 110 q-12 10 0 22" stroke="#0d1f3a" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="stat">
+          <div><b id="st-slots">–</b><span>free slots, next 7 days</span></div>
+          <div><b>2</b><span>coaches</span></div>
+          <div><b id="st-courts">8</b><span>courts</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap sec">
+    <div class="eyebrow">How it works</div>
+    <h2>Three steps.</h2>
+    <div class="steps">
+      <div class="card step"><div class="n">1</div><h3>Pick a slot</h3><p>Every slot shown means the coach is free <b>and</b> at least one court at Padelzone 2.0 is free at that time.</p></div>
+      <div class="card step"><div class="n">2</div><h3>Send the request</h3><p>Click “Book” — WhatsApp opens with your request already written for Lazslo. Just hit send.</p></div>
+      <div class="card step"><div class="n">3</div><h3>Confirm &amp; pay</h3><p>Lazslo books the court on Taykus and confirms. You pay him by Bizum or bank transfer.</p></div>
+    </div>
+  </div>
+
+  <div class="wrap sec">
+    <div class="eyebrow">The coaches</div>
+    <h2>Who you'll train with.</h2>
+    <div class="coaches" id="home-coaches"></div>
+  </div>
+
+  <div class="wrap sec">
+    <div class="eyebrow">The venue</div>
+    <h2>Padelzone 2.0, Segovia.</h2>
+    <div class="venue">
+      <div class="card">
+        <h3>Padelzone 2.0</h3>
+        <div class="courts" style="display:flex;gap:4px;margin:12px 0" id="venue-courts"></div>
+        <p>Indoor padel club in Segovia. Lessons last 60 or 90 minutes, court included.</p>
+      </div>
+      <div class="card">
+        <h3>Live court availability</h3>
+        <p>Free courts come straight from the club's booking system and refresh every few minutes. A slot can still be taken between your request and Lazslo's booking — he'll offer you another time if so.</p>
+      </div>
+    </div>
+
+    <div class="tourney-teaser">
+      <div>
+        <div class="eyebrow">Monthly tournament</div>
+        <h2>32 students. 2 levels. 1 trophy.</h2>
+        <p id="teaser-txt">Every month Lazslo runs a tournament for IE Segovia students: 8 pairs in Advanced, 8 pairs in Intermediate.</p>
+      </div>
+      <a href="#tournament" class="btn btn-lime">Register your pair →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LESSONS ================= -->
+<section class="page" id="p-lessons">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow">Lessons · Padelzone 2.0</div>
+      <h1>Available slots</h1>
+      <p>Each slot is a start time where the coach and at least one court are free — for 60 or 90 minutes. Click a slot to send your request to Lazslo on WhatsApp.</p>
+    </div>
+
+    <div id="lessons-notices" style="margin-top:22px"></div>
+
+    <div class="filters">
+      <div class="fgroup"><label>Coach</label><div class="chips" id="f-coach"></div></div>
+      <div class="fgroup"><label>Time of day</label><div class="chips" id="f-time"></div></div>
+    </div>
+
+    <div class="days" id="days"></div>
+    <div class="updated" id="updated"></div>
+    <div id="slots-out"><div class="slots"><div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div></div></div>
+
+    <div class="sec" style="padding-top:40px">
+      <div class="eyebrow">Prices · per person, court included</div>
+      <div class="prices" id="prices" style="grid-template-columns:repeat(4,1fr)"></div>
+      <p id="first-promo" style="margin-top:14px;font-weight:600"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOURNAMENT ================= -->
+<section class="page" id="p-tournament">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="eyebrow">Organised by Lazslo Bauer</div>
+      <h1>The IE Segovia Padel Tournament</h1>
+      <p>Once a month, 32 IE Segovia students. Two levels — Advanced and Intermediate — with 8 pairs each. Register with your partner on WhatsApp.</p>
+    </div>
+
+    <div class="t-hero">
+      <div>
+        <div class="eyebrow">Next edition</div>
+        <h2 id="t-title">Date announced soon</h2>
+        <p>16 pairs in total, 8 per level. Spots are confirmed by Lazslo in order of registration.</p>
+      </div>
+      <div class="t-facts">
+        <div class="t-fact"><span>Date</span><b id="t-date">TBA</b></div>
+        <div class="t-fact"><span>Check-in</span><b id="t-checkin">TBA</b></div>
+        <div class="t-fact"><span>Venue</span><b>Padelzone 2.0</b></div>
+        <div class="t-fact"><span>Entry fee</span><b id="t-fee">TBA</b></div>
+      </div>
+    </div>
+
+    <div class="t-levels" id="t-levels"></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>TGT · padel lessons &amp; tournaments for IE University Segovia</span>
+    <span>Court availability from Padelzone 2.0 · bookings confirmed by Lazslo</span>
+  </div>
+</footer>
+
+<div class="overlay" id="ov">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-h"><h3 id="m-title">Book</h3><button class="x" id="m-x" aria-label="Close">×</button></div>
+    <div class="modal-b" id="m-body"></div>
+  </div>
+</div>
+
+<script>
+const API = '/api/availability';
+let DATA = null;
+const F = { coach: 'all', time: 'all', day: 0 };
+const TIMES = [
+  { id: 'all', label: 'Any time' },
+  { id: 'am', label: 'Morning', test: h => h < 13 },
+  { id: 'mid', label: 'Afternoon', test: h => h >= 13 && h < 18 },
+  { id: 'pm', label: 'Evening', test: h => h >= 18 },
+];
+const LEVELS_DESC = {
+  Advanced: 'Comfortable with bandeja, vibora and wall play. Regular competitive players.',
+  Intermediate: 'You rally consistently and know the basics of positioning.',
+};
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const dateOf = ymd => { const [y, m, d] = ymd.split('-').map(Number); return new Date(y, m - 1, d); };
+const fmtShort = ymd => dateOf(ymd).toLocaleDateString('en-GB', { weekday: 'short' });
+const fmtLong = ymd => dateOf(ymd).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+const coach = id => DATA.coaches.find(c => c.id === id);
+
+/* ---------- router ---------- */
+function route() {
+  const p = (location.hash || '#home').slice(1);
+  const page = ['home', 'lessons', 'tournament'].includes(p) ? p : 'home';
+  document.querySelectorAll('section.page').forEach(s => s.classList.toggle('on', s.id === 'p-' + page));
+  document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === page));
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', route);
+route();
+
+/* ---------- load ---------- */
+async function load() {
+  try {
+    const r = await fetch(API);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    if (DATA.error) throw new Error(DATA.error);
+  } catch (e) {
+    $('#lessons-notices').innerHTML = `<div class="notice err">Availability couldn't be loaded right now. Please try again in a few minutes, or message Lazslo directly.</div>`;
+    $('#slots-out').innerHTML = '';
+    $('#st-slots').textContent = '–';
+    renderTournament(null);
+    return;
+  }
+  renderAll();
+}
+
+function renderAll() {
+  $('#st-slots').textContent = DATA.slots.length;
+  if (DATA.club.courts) $('#st-courts').textContent = DATA.club.courts;
+  $('#venue-courts').innerHTML = '<i style="width:18px;height:26px;border-radius:3px;background:var(--court)"></i>'.repeat(DATA.club.courts || 8);
+  renderCoaches();
+  renderPrices();
+  renderNotices();
+  renderLessons();
+  renderTournament(DATA.tournament);
+}
+
+function renderPrices() {
+  const P = DATA.prices;
+  $('#prices').innerHTML = Object.entries(P.perHourPerPerson).map(([n, r]) => `
+    <div class="card price"><div style="font-weight:700">${n === '1' ? 'Private' : n + ' players'}</div>
+    <b>€${r}</b> <span class="pp">/ hour / person</span>
+    <div class="pp">60 min: ${money(r * n)} total · 90 min: ${money(r * 1.5 * n)} total</div></div>`).join('');
+  $('#first-promo').innerHTML = `🎁 <span style="background:var(--lime);padding:2px 8px;border-radius:6px">−${P.firstLessonDiscount * 100}% on your first lesson</span>`;
+}
+
+function renderCoaches() {
+  $('#home-coaches').innerHTML = DATA.coaches.map(c => `
+    <div class="card coach">
+      <div class="avatar" style="background:${c.color}">${c.initials}</div>
+      <div>
+        <h3>${esc(c.name)}</h3><div class="role">${esc(c.role)}</div>
+        <span class="status ${c.connected ? 'on' : 'off'}"><i></i>${c.connected ? 'Live availability' : 'Availability coming soon'}</span>
+      </div>
+    </div>`).join('');
+}
+
+function renderNotices() {
+  const n = [];
+  const off = DATA.coaches.filter(c => !c.connected);
+  if (off.length) n.push(`<div class="notice info">${off.map(c => esc(c.name)).join(' and ')}'s availability will be online soon. Meanwhile you can message Lazslo to book with ${off.length > 1 ? 'them' : off[0].name.split(' ')[0]}.</div>`);
+  if (DATA.errors.some(e => e.source === 'taykus')) n.push(`<div class="notice warn">Court availability from the club is partly unavailable right now — some slots may be missing.</div>`);
+  if (DATA.errors.some(e => e.source === 'calendar')) n.push(`<div class="notice warn">A coach's calendar couldn't be read right now — their slots may be missing.</div>`);
+  $('#lessons-notices').innerHTML = n.join('');
+}
+
+/* ---------- lessons ---------- */
+function matches(s) {
+  if (F.coach !== 'all' && s.coach !== F.coach) return false;
+  const t = TIMES.find(t => t.id === F.time);
+  return !t.test || t.test(+s.start.slice(0, 2));
+}
+function renderLessons() {
+  const connected = DATA.coaches.filter(c => c.connected);
+  const coachChips = [{ id: 'all', label: 'All coaches' }, ...connected.map(c => ({ id: c.id, label: c.name.split(' ')[0] }))];
+  $('#f-coach').innerHTML = coachChips.map(i => `<button class="chip ${F.coach === i.id ? 'on' : ''}" data-k="coach" data-v="${i.id}">${i.label}</button>`).join('');
+  $('#f-time').innerHTML = TIMES.map(i => `<button class="chip ${F.time === i.id ? 'on' : ''}" data-k="time" data-v="${i.id}">${i.label}</button>`).join('');
+  $('#days').innerHTML = DATA.days.map((d, i) => {
+    const n = DATA.slots.filter(s => s.date === d && matches(s)).length;
+    return `<button class="day ${F.day === i ? 'on' : ''}" data-day="${i}"><span>${i === 0 ? 'Today' : fmtShort(d)}</span><b>${dateOf(d).getDate()}</b><em style="${n ? '' : 'color:var(--muted)'}">${n} free</em></button>`;
+  }).join('');
+  const t = new Date(DATA.updatedAt);
+  $('#updated').textContent = `Updated at ${t.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })} · refreshes every few minutes`;
+
+  const day = DATA.days[F.day];
+  const list = DATA.slots.filter(s => s.date === day && matches(s));
+  if (!connected.length) { $('#slots-out').innerHTML = `<div class="empty">Coach calendars are being connected. Message Lazslo on WhatsApp to book in the meantime.</div>`; return; }
+  if (!list.length) { $('#slots-out').innerHTML = `<div class="empty">No free slot on ${fmtLong(day)} for these filters. Try another day.</div>`; return; }
+  $('#slots-out').innerHTML = `<div class="slots">${list.map((s, i) => {
+    const c = coach(s.coach);
+    return `<button class="slot" data-slot="${DATA.slots.indexOf(s)}">
+      <span class="court-no">${s.courts.length} court${s.courts.length > 1 ? 's' : ''} free</span>
+      <div class="t">${s.start}</div>
+      <div class="c"><i style="background:${c.color};border:1px solid var(--ink)"></i>${esc(c.name)}</div>
+      <div class="p">${s.durations.map(d => d.minutes).join(' or ')} min · from €${minPrice(s)}/pers</div>
+    </button>`;
+  }).join('')}</div>`;
+}
+
+/* ---------- modal ---------- */
+const ov = $('#ov');
+function openModal(title, html) { $('#m-title').textContent = title; $('#m-body').innerHTML = html; ov.classList.add('on'); }
+function closeModal() { ov.classList.remove('on'); }
+$('#m-x').onclick = closeModal;
+ov.addEventListener('click', e => { if (e.target === ov) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+const check = (el, ok) => { el.closest('.field').classList.toggle('bad', !ok); return ok; };
+
+function waBlock(text) {
+  const num = DATA && DATA.whatsapp;
+  if (num) {
+    return `<a class="btn btn-wa full" href="https://wa.me/${num}?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">Send on WhatsApp →</a>
+            <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:8px">WhatsApp: +${num}</p>`;
+  }
+  return `<div class="notice warn">Lazslo's WhatsApp link isn't set up yet. Copy this message and send it to him.</div>
+          <div class="msg-preview">${esc(text)}</div>
+          <button class="btn btn-ink full" id="copy">Copy message</button>`;
+}
+function bindCopy(text) {
+  const b = $('#copy'); if (!b) return;
+  b.onclick = async () => { try { await navigator.clipboard.writeText(text); b.textContent = 'Copied ✓'; } catch { b.textContent = 'Select the text above to copy'; } };
+}
+
+/* ---------- prices ---------- */
+const money = n => '€' + (Math.round(n * 100) / 100).toLocaleString('en-GB', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+function price(minutes, players, firstTimers) {
+  const P = DATA.prices, rate = P.perHourPerPerson[players];
+  const share = rate * minutes / 60;
+  const total = share * players - share * firstTimers * P.firstLessonDiscount;
+  return { share, total, discount: share * firstTimers * P.firstLessonDiscount };
+}
+function minPrice(s) {
+  const P = DATA.prices.perHourPerPerson, maxP = Math.max(...Object.keys(P).map(Number));
+  return Math.round(P[maxP] * Math.min(...s.durations.map(d => d.minutes)) / 60);
+}
+
+function openLesson(s) {
+  const c = coach(s.coach);
+  const P = DATA.prices;
+  let dur = s.durations[s.durations.length - 1];
+  openModal('Request a lesson', `
+    <div class="summary">
+      <div><span>Coach</span><span>${esc(c.name)}</span></div>
+      <div><span>When</span><span>${fmtLong(s.date)}, from ${s.start}</span></div>
+      <div><span>Where</span><span>Padelzone 2.0</span></div>
+    </div>
+    <form id="lf" novalidate>
+      <div class="field"><label>Duration</label>
+        <div class="seg" id="dseg" style="grid-template-columns:repeat(${s.durations.length},1fr)">${s.durations.map(d => `<button type="button" data-m="${d.minutes}" class="${d === dur ? 'on' : ''}">${d.minutes} min<small>${s.start}–${d.end}</small></button>`).join('')}</div>
+      </div>
+      <div class="row2">
+        <div class="field"><label>Players</label><select id="lp">${Object.keys(P.perHourPerPerson).map(n => `<option value="${n}">${n}${n === '1' ? ' (private)' : ''} · €${P.perHourPerPerson[n]}/h each</option>`).join('')}</select></div>
+        <div class="field"><label>First lesson with us?</label><select id="lf1"></select></div>
+      </div>
+      <div class="summary" id="pbox"></div>
+      <div class="field"><label>Your name</label><input id="ln" placeholder="e.g. Sofia Martín" autocomplete="name"><div class="err">Required</div></div>
+      <div class="field"><label>Level</label><select id="ll"><option>Never played</option><option selected>Beginner</option><option>Intermediate</option><option>Advanced</option></select></div>
+      <button class="btn btn-ink full" type="submit">Continue</button>
+    </form>`);
+  const firstOpts = () => {
+    const n = +$('#lp').value, cur = Math.min(+($('#lf1').value || 0), n);
+    $('#lf1').innerHTML = Array.from({ length: n + 1 }, (_, i) => `<option value="${i}" ${i === cur ? 'selected' : ''}>${i === 0 ? 'No' : n === 1 ? 'Yes (−' + P.firstLessonDiscount * 100 + '%)' : i + ' of us (−' + P.firstLessonDiscount * 100 + '% each)'}</option>`).join('');
+  };
+  const update = () => {
+    const n = +$('#lp').value, f = +$('#lf1').value, p = price(dur.minutes, n, f);
+    $('#pbox').innerHTML = `
+      <div><span>${dur.minutes} min × ${n} player${n > 1 ? 's' : ''}</span><span>${money(p.share)} each</span></div>
+      ${f ? `<div><span>First-lesson discount (${f}×)</span><span>−${money(p.discount)}</span></div>` : ''}
+      <div class="tot"><span>Total</span><span>${money(p.total)}</span></div>`;
+  };
+  firstOpts(); update();
+  $('#lp').onchange = () => { firstOpts(); update(); };
+  $('#lf1').onchange = update;
+  $('#dseg').addEventListener('click', e => {
+    const b = e.target.closest('[data-m]'); if (!b) return;
+    dur = s.durations.find(d => d.minutes === +b.dataset.m);
+    $('#dseg').querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    update();
+  });
+  $('#lf').addEventListener('submit', ev => {
+    ev.preventDefault();
+    if (!check($('#ln'), $('#ln').value.trim().length > 1)) return;
+    const name = $('#ln').value.trim(), players = +$('#lp').value, level = $('#ll').value, first = +$('#lf1').value;
+    const p = price(dur.minutes, players, first);
+    const text = `Hi Lazslo! I'd like to book a padel lesson 🎾
+Coach: ${c.name}
+Date: ${fmtLong(s.date)}
+Time: ${s.start}–${dur.end} (${dur.minutes} min)
+Place: Padelzone 2.0 (free now: ${dur.courts.join(', ')})
+Players: ${players}${first ? ` (${first} first lesson${first > 1 ? 's' : ''})` : ''}
+Level: ${level}
+Price: ${money(p.total)}${players > 1 ? ` (${money(p.share)} each${first ? ' before discount' : ''})` : ''}
+Name: ${name}`;
+    $('#m-body').innerHTML = `
+      <div class="msg-preview">${esc(text)}</div>
+      <ol class="pay-steps">
+        <li>Send this message to Lazslo.</li>
+        <li>He books the court on the club's system and confirms.</li>
+        <li>You pay him by <b>Bizum</b> or <b>bank transfer</b> — he'll send you the details.</li>
+      </ol>
+      ${waBlock(text)}`;
+    bindCopy(text);
+  });
+}
+
+/* ---------- tournament ---------- */
+function renderTournament(t) {
+  t = t || { nextDate: null, checkIn: null, feePerPair: null, levels: ['Advanced', 'Intermediate'], pairsPerLevel: 8 };
+  if (t.nextDate) {
+    const d = dateOf(t.nextDate);
+    $('#t-title').textContent = `${d.toLocaleDateString('en-GB', { month: 'long' })} edition`;
+    $('#t-date').textContent = d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+    $('#teaser-txt').textContent = `Next edition: ${fmtLong(t.nextDate)} at Padelzone 2.0. 8 pairs in Advanced, 8 pairs in Intermediate.`;
+  }
+  if (t.checkIn) $('#t-checkin').textContent = t.checkIn;
+  if (t.feePerPair != null) $('#t-fee').textContent = `€${t.feePerPair} / pair`;
+  $('#t-levels').innerHTML = t.levels.map((l, i) => `
+    <div class="card">
+      <div class="level-h" style="display:flex;justify-content:space-between;align-items:flex-start"><h3>${esc(l)}</h3><span class="badge ${i ? 'int' : 'adv'}" style="font-size:12px;font-weight:700;padding:5px 11px;border-radius:999px">${t.pairsPerLevel} pairs</span></div>
+      <p>${LEVELS_DESC[l] || ''}</p>
+      <button class="btn ${i ? 'btn-lime' : 'btn-ink'} full" data-register="${esc(l)}">Register a pair</button>
+    </div>`).join('');
+}
+
+function openTourney(level) {
+  const t = (DATA && DATA.tournament) || {};
+  openModal(`Register · ${level}`, `
+    <form id="tf" novalidate>
+      <div class="field"><label>Player 1 — full name</label><input id="ta"><div class="err">Required</div></div>
+      <div class="field"><label>Player 2 — full name</label><input id="tb"><div class="err">Required</div></div>
+      <button class="btn btn-ink full" type="submit">Continue</button>
+    </form>`);
+  $('#tf').addEventListener('submit', ev => {
+    ev.preventDefault();
+    const ok = [check($('#ta'), $('#ta').value.trim().length > 1), check($('#tb'), $('#tb').value.trim().length > 1)].every(Boolean);
+    if (!ok) return;
+    const text = `Hi Lazslo! We'd like to register for the IE Segovia padel tournament 🏆
+Level: ${level}
+${t.nextDate ? 'Edition: ' + fmtLong(t.nextDate) + '\n' : ''}Player 1: ${$('#ta').value.trim()}
+Player 2: ${$('#tb').value.trim()}`;
+    $('#m-body').innerHTML = `
+      <div class="msg-preview">${esc(text)}</div>
+      <ol class="pay-steps">
+        <li>Send this message to Lazslo.</li>
+        <li>He confirms your spot if there's room in ${esc(level)}.</li>
+        <li>You pay the entry fee by <b>Bizum</b> or <b>bank transfer</b>.</li>
+      </ol>
+      ${waBlock(text)}`;
+    bindCopy(text);
+  });
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const ch = e.target.closest('.chip[data-k]');
+  if (ch) { F[ch.dataset.k] = ch.dataset.v; renderLessons(); return; }
+  const dy = e.target.closest('[data-day]');
+  if (dy) { F.day = +dy.dataset.day; renderLessons(); return; }
+  const sl = e.target.closest('[data-slot]');
+  if (sl) { openLesson(DATA.slots[+sl.dataset.slot]); return; }
+  const rg = e.target.closest('[data-register]');
+  if (rg) { openTourney(rg.dataset.register); return; }
+});
+
+renderTournament(null);
+load();
+setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>

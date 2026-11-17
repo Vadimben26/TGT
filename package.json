@@ -1,0 +1,16 @@
+{
+  "name": "tgt-padel-segovia",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/availability.test.js"
+  },
+  "dependencies": {
+    "node-ical": "^0.20.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
